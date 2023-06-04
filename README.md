@@ -1,2 +1,2 @@
-# ESP32-HardDebugger
+# EspHardDebugger
 Simplify the serialization of debug log for esp32 code
