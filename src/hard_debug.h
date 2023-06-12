@@ -42,7 +42,7 @@ public:
   }
 
   template<typename T>
-  void print(const T* array, size_t _length)
+  void print(const T* const array, size_t _length)
   {
     static_assert(std::is_arithmetic<T>::value, "Array must support arithmetic operations!");
     if (log_print_i > 0 && _length > 0)
@@ -56,7 +56,7 @@ public:
     }
   }
 
-  void print(const float* array, size_t _length, const size_t decimals = 4)
+  void print(const float* const array, size_t _length, const size_t decimals = 4)
   {
     if (log_print_i > 0 && _length > 0)
     {
