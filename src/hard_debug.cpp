@@ -24,10 +24,10 @@ void Debugger::_print(String content, bool same){
   if (!same)
   {
     while(!Serial.availableForWrite());
-    Serial.print("Debug[");
+    Serial.print("Debug[0x");
     vTaskDelay(pdMS_TO_TICKS(10));
     while(!Serial.availableForWrite());
-    Serial.print(log_print_i, DEC);
+    Serial.print(log_print_i, HEX);
     vTaskDelay(pdMS_TO_TICKS(10));
     while(!Serial.availableForWrite());
     Serial.print("]: ");
@@ -48,10 +48,10 @@ void Debugger::_println(String content, bool same){
   if (!same)
   {
     while(!Serial.availableForWrite());
-    Serial.print("Debug[");
+    Serial.print("Debug[0x");
     vTaskDelay(pdMS_TO_TICKS(10));
     while(!Serial.availableForWrite());
-    Serial.print(log_print_i, DEC);
+    Serial.print(log_print_i, HEX);
     vTaskDelay(pdMS_TO_TICKS(10));
     while(!Serial.availableForWrite());
     Serial.print("]: ");
