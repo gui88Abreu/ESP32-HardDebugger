@@ -42,21 +42,20 @@ public:
   }
 
   template<typename T>
-  void print(const T* const array, size_t _length)
+  void print(const T* const array, size_t _length, unsigned char base = DEC)
   {
-    static_assert(std::is_arithmetic<T>::value, "Array must support arithmetic operations!");
     if (log_print_i > 0 && _length > 0)
     {
-      _print("[" + String(array[0]));
+      _print("[" + String(array[0], base));
       for(size_t i = 1; i < _length; i++)
       {
-        _print(", " + String(array[i]), true);
+        _print(", " + String(array[i], base), true);
       }
       _println(String("]"), true);
     }
   }
-
-  void print(const float* const array, size_t _length, const size_t decimals = 4)
+  
+  void print(const float* const array, size_t _length, unsigned int decimals = 4)
   {
     if (log_print_i > 0 && _length > 0)
     {
