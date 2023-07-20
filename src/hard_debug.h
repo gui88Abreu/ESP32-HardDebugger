@@ -35,10 +35,19 @@ public:
    */
   bool enabled();
 
+  /**
+   * @brief Print out content via serial port
+   * 
+   * @tparam T Content type
+   * @param content The content
+   * @param newLine If true then print will break the line.
+   * @param same If true, Debug log won't be printed.
+   */
   template<typename T>
-  void print(const T content)
+  void print(const T content, bool newLine = true, bool same = false)
   {
-    if (log_print_i > 0) _println(String(content));
+    if (!log_print_i) return;
+    newLine ? _println(String(content)) : _print(String(content), same);
   }
 
   template<typename T>
