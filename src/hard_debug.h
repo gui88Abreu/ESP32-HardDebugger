@@ -2,6 +2,7 @@
 #define _DEBUG_H_
 
 #include <Arduino.h>
+#include "esp_array.h" // https://github.com/guilhAbreu/EspMath
 
 /**
  * @brief Enable or disable the debug mode.
@@ -50,6 +51,13 @@ public:
     newLine ? _println(String(content)) : _print(String(content), same);
   }
 
+  void print(const int16_t content, uint8_t frac = 0, bool newLine = true, bool same = false)
+  {
+    if (!log_print_i) return;
+    newLine ? _println(String(espmath::fixed2float(content, frac), 4))\
+            : _print(String(espmath::fixed2float(content, frac), 4), same);
+  }
+
   template<typename T>
   void print(const T* const array, size_t _length, unsigned char opt = DEC)
   {
@@ -59,6 +67,19 @@ public:
       for(size_t i = 1; i < _length; i++)
       {
         _print(", " + String(array[i], opt), true);
+      }
+      _println(String("]"), true);
+    }
+  }
+
+  void print(const int16_t* const array, size_t _length, unsigned char frac = 0, unsigned char opt = DEC)
+  {
+    if (log_print_i > 0 && _length > 0)
+    {
+      _print("[" + String(espmath::fixed2float(array[0], frac), 4));
+      for(size_t i = 1; i < _length; i++)
+      {
+        _print(", " + String(espmath::fixed2float(array[i], frac), 4), true);
       }
       _println(String("]"), true);
     }
