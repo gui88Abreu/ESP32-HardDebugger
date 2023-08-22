@@ -1,4 +1,4 @@
-#include "hard_debug.h"
+#include "esp_debug.h"
 
 uint32_t array0[6] = {1,2,3,4,5,6};
 uint16_t array1[6] = {1,2,3,4,5,6};
