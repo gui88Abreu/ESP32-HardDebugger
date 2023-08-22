@@ -1,4 +1,4 @@
-#include "hard_debug.h"
+#include "esp_debug.h"
 
 static portMUX_TYPE debugMux = portMUX_INITIALIZER_UNLOCKED;
 Debugger debug(115200);

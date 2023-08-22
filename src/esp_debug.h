@@ -2,6 +2,7 @@
 #define _DEBUG_H_
 
 #include <Arduino.h>
+#include "esp_fixed_point.h"
 #include "esp_array.h" // https://github.com/guilhAbreu/EspMath
 
 /**
@@ -51,11 +52,11 @@ public:
     newLine ? _println(String(content)) : _print(String(content), same);
   }
 
-  void print(const int16_t content, uint8_t frac = 0, bool newLine = true, bool same = false)
+  void print(const espmath::fixed f, bool newLine = true, bool same = false)
   {
     if (!log_print_i) return;
-    newLine ? _println(String(espmath::fixed2float(content, frac), 4))\
-            : _print(String(espmath::fixed2float(content, frac), 4), same);
+    newLine ? _println(String((float)f, 4))\
+            : _print(String((float)f, 4), same);
   }
 
   template<typename T>
