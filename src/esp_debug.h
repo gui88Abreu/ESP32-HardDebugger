@@ -2,8 +2,9 @@
 #define _DEBUG_H_
 
 #include <Arduino.h>
-#include "esp_fixed_point.h"
 #include "esp_array.h" // https://github.com/guilhAbreu/EspMath
+
+using namespace espmath;
 
 /**
  * @brief Enable or disable the debug mode.
@@ -52,13 +53,6 @@ public:
     newLine ? _println(String(content)) : _print(String(content), same);
   }
 
-  void print(const espmath::fixed f, bool newLine = true, bool same = false)
-  {
-    if (!log_print_i) return;
-    newLine ? _println(String((float)f, 4))\
-            : _print(String((float)f, 4), same);
-  }
-
   template<typename T>
   void print(const T* const array, size_t _length, unsigned char opt = DEC)
   {
@@ -73,14 +67,14 @@ public:
     }
   }
 
-  void print(const int16_t* const array, size_t _length, unsigned char frac = 0, unsigned char opt = DEC)
+  void print(const fixed* const array, size_t _length, unsigned int dec = 4)
   {
     if (log_print_i > 0 && _length > 0)
     {
-      _print("[" + String(espmath::fixed2float(array[0], frac), 4));
+      _print("[" + String((float)array[0], dec));
       for(size_t i = 1; i < _length; i++)
       {
-        _print(", " + String(espmath::fixed2float(array[i], frac), 4), true);
+        _print(", " + String((float)array[i], dec), true);
       }
       _println(String("]"), true);
     }
@@ -101,28 +95,28 @@ public:
     }
   }
   
-  void print(const float* const array, size_t _length, unsigned char decimals = 4)
+  void print(const float* const array, size_t _length, unsigned int decimals = 4)
   {
     if (log_print_i > 0 && _length > 0)
     {
-      _print("[" + String(array[0], (uint32_t)decimals));
+      _print("[" + String(array[0], decimals));
       for(size_t i = 1; i < _length; i++)
       {
-        _print(", " + String(array[i], (uint32_t)decimals), true);
+        _print(", " + String(array[i], decimals), true);
       }
       _println(String("]"), true);
     }
   }
 
-  void print(const float* const array, size_t rows, size_t columns, unsigned char decimals = 4)
+  void print(const float* const array, size_t rows, size_t columns, unsigned int decimals = 4)
   {
     if (log_print_i > 0 && rows*columns > 0)
     {
       for (size_t j = 0; j < rows; j++)
       {
-        _print("|" + String(array[j*columns + 0], (uint32_t)decimals));
+        _print("|" + String(array[j*columns + 0], decimals));
         for(size_t i = 1; i < columns; i++)
-          _print(" " + String(array[j*columns + i], (uint32_t)decimals), true);
+          _print(" " + String(array[j*columns + i], decimals), true);
         _println(String("|"), true);
       }
     }
