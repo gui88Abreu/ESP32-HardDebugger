@@ -14,7 +14,7 @@ using namespace espmath;
  * 
  * @note Debug prints don't affect the performance of the app if debug mode is disabled.
  */
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 
 /**
  * @brief Implement methods to consistent print debug output via serial port
@@ -41,7 +41,7 @@ public:
   /**
    * @brief Print out content via serial port
    * 
-   * @tparam T Content type
+   * @tparam T Content type. It must be convertible into String.
    * @param content The content
    * @param newLine If true then print will break the line.
    * @param same If true, Debug log won't be printed.
@@ -49,78 +49,114 @@ public:
   template<typename T>
   void print(const T content, bool newLine = true, bool same = false)
   {
-    if (!log_print_i) return;
+#if DEBUG_MODE
     newLine ? _println(String(content)) : _print(String(content), same);
-  }
-
-  template<typename T>
-  void print(const T* const array, size_t _length, unsigned char opt = DEC)
-  {
-    if (log_print_i > 0 && _length > 0)
-    {
-      _print("[" + String(array[0], opt));
-      for(size_t i = 1; i < _length; i++)
-      {
-        _print(", " + String(array[i], opt), true);
-      }
-      _println(String("]"), true);
-    }
-  }
-
-  void print(const fixed* const array, size_t _length, unsigned int dec = 4)
-  {
-    if (log_print_i > 0 && _length > 0)
-    {
-      _print("[" + String((float)array[0], dec));
-      for(size_t i = 1; i < _length; i++)
-      {
-        _print(", " + String((float)array[i], dec), true);
-      }
-      _println(String("]"), true);
-    }
-  }
-
-  template<typename T>
-  void print(const T* const array, size_t rows, size_t columns, unsigned char opt = DEC)
-  {
-    if (log_print_i > 0 && rows*columns > 0)
-    {
-      for (size_t j = 0; j < rows; j++)
-      {
-        _print("|" + String(array[j*columns + 0], opt));
-        for(size_t i = 1; i < columns; i++)
-          _print(" " + String(array[j*columns + i], opt), true);
-        _println(String("|"), true);
-      }
-    }
+#endif
   }
   
-  void print(const float* const array, size_t _length, unsigned int decimals = 4)
+  /**
+   * @brief Print out array content via serial port
+   * 
+   * @tparam T Content type. It must be arithmetic.
+   * @param array The content
+   * @param _length Length of the array
+   * @param opt Base
+   */
+  template<typename T>
+  void print(const T* const array, unsigned int _length, unsigned char opt = DEC)
   {
-    if (log_print_i > 0 && _length > 0)
+#if DEBUG_MODE
+    _print("[" + String(array[0], opt));
+    for(unsigned int i = 1; i < _length; i++)
     {
-      _print("[" + String(array[0], decimals));
-      for(size_t i = 1; i < _length; i++)
-      {
-        _print(", " + String(array[i], decimals), true);
-      }
-      _println(String("]"), true);
+      _print(", " + String(array[i], opt), true);
     }
+    _println(String("]"), true);
+#endif
   }
 
-  void print(const float* const array, size_t rows, size_t columns, unsigned int decimals = 4)
+  /**
+   * @brief Print out matrix array content via serial port
+   * 
+   * @tparam T Content type. It must be arithmetic.
+   * @param array The content
+   * @param rows 
+   * @param columns
+   * @param opt Base
+   */
+  template<typename T>
+  void print(const T* const array, unsigned int rows, unsigned int columns, unsigned char opt = DEC)
   {
-    if (log_print_i > 0 && rows*columns > 0)
+#if DEBUG_MODE
+    for (unsigned int j = 0; j < rows; j++)
     {
-      for (size_t j = 0; j < rows; j++)
-      {
-        _print("|" + String(array[j*columns + 0], decimals));
-        for(size_t i = 1; i < columns; i++)
-          _print(" " + String(array[j*columns + i], decimals), true);
-        _println(String("|"), true);
-      }
+      _print("|" + String(array[j*columns + 0], opt));
+      for(unsigned int i = 1; i < columns; i++)
+        _print(" " + String(array[j*columns + i], opt), true);
+      _println(String("|"), true);
     }
+#endif
   }
+
+  /**
+   * @brief Print out fixed array content via serial port
+   * 
+   * @param array The content
+   * @param _length Length of the array
+   * @param dec Decimals places
+   */
+  void print(const fixed* const array, unsigned int _length, unsigned int dec = 4)
+  {
+#if DEBUG_MODE
+    _print("[" + String((float)array[0], dec));
+    for(unsigned int i = 1; i < _length; i++)
+    {
+      _print(", " + String((float)array[i], dec), true);
+    }
+    _println(String("]"), true);
+#endif
+  }
+
+  /**
+   * @brief Print out float array content via serial port
+   * 
+   * @param array The content
+   * @param _length Length of the array
+   * @param dec Decimals places
+   */
+  void print(const float* const array, unsigned int _length, unsigned int dec = 4)
+  {
+#if DEBUG_MODE
+    _print("[" + String(array[0], dec));
+    for(unsigned int i = 1; i < _length; i++)
+    {
+      _print(", " + String(array[i], dec), true);
+    }
+    _println(String("]"), true);
+#endif
+  }
+
+  /**
+   * @brief Print out float matrix array content via serial port
+   * 
+   * @param array The content
+   * @param rows
+   * @param columns
+   * @param dec Decimals places
+   */
+  void print(const float* const array, unsigned int rows, unsigned int columns, unsigned int dec = 4)
+  {
+#if DEBUG_MODE
+    for (unsigned int j = 0; j < rows; j++)
+    {
+      _print("|" + String(array[j*columns + 0], dec));
+      for(unsigned int i = 1; i < columns; i++)
+        _print(" " + String(array[j*columns + i], dec), true);
+      _println(String("|"), true);
+    }
+#endif
+  }
+  
 private:
   uint64_t log_print_i = 0;
 
