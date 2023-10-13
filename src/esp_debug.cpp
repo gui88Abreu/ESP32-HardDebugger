@@ -23,19 +23,16 @@ void Debugger::_print(String content, bool same){
   
   if (!same)
   {
-    while(!Serial.availableForWrite());
     Serial.print("Debug[0x");
     vTaskDelay(pdMS_TO_TICKS(10));
-    while(!Serial.availableForWrite());
     Serial.print(log_print_i, HEX);
     vTaskDelay(pdMS_TO_TICKS(10));
-    while(!Serial.availableForWrite());
     Serial.print("]: ");
     vTaskDelay(pdMS_TO_TICKS(10));
     log_print_i++;
   }
   
-  while(!Serial.availableForWrite());
+  
   Serial.print(content);
   
   taskEXIT_CRITICAL(&debugMux);
@@ -47,19 +44,16 @@ void Debugger::_println(String content, bool same){
   
   if (!same)
   {
-    while(!Serial.availableForWrite());
     Serial.print("Debug[0x");
     vTaskDelay(pdMS_TO_TICKS(10));
-    while(!Serial.availableForWrite());
     Serial.print(log_print_i, HEX);
     vTaskDelay(pdMS_TO_TICKS(10));
-    while(!Serial.availableForWrite());
     Serial.print("]: ");
     vTaskDelay(pdMS_TO_TICKS(10));
     log_print_i++;
   }
   
-  while(!Serial.availableForWrite());
+  
   Serial.println(content);
   
   taskEXIT_CRITICAL(&debugMux);

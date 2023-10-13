@@ -14,7 +14,7 @@ using namespace espmath;
  * 
  * @note Debug prints don't affect the performance of the app if debug mode is disabled.
  */
-#define DEBUG_MODE 0
+#define DEBUG_MODE 1
 
 /**
  * @brief Implement methods to consistent print debug output via serial port
