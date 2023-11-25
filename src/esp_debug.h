@@ -43,14 +43,26 @@ public:
    * 
    * @tparam T Content type. It must be convertible into String.
    * @param content The content
+   */
+  template<typename T>
+  void print(const T content)
+  {
+#if DEBUG_MODE
+    _print(String(content));
+#endif
+  }
+
+  /**
+   * @brief Print out content via serial port
+   * 
+   * @param content The content
    * @param newLine If true then print will break the line.
    * @param same If true, Debug log won't be printed.
    */
-  template<typename T>
-  void print(const T content, bool newLine = true, bool same = false)
+  void print(const String content, bool newLine = true, bool same = false)
   {
 #if DEBUG_MODE
-    newLine ? _println(String(content)) : _print(String(content), same);
+    newLine ? _println(content) : _print(content, same);
 #endif
   }
   
