@@ -48,7 +48,7 @@ public:
   void print(const T content)
   {
 #if DEBUG_MODE
-    _print(String(content));
+    _println(String(content));
 #endif
   }
 
@@ -168,6 +168,13 @@ public:
     }
 #endif
   }
+
+  /**
+   * @brief Wait for byte from the Serial port and return it
+   * 
+   * @return byte
+   */
+  byte readByte();
   
 private:
   uint64_t log_print_i = 0;

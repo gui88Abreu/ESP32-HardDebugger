@@ -58,3 +58,11 @@ void Debugger::_println(String content, bool same){
   
   taskEXIT_CRITICAL(&debugMux);
 }
+
+byte Debugger::readByte(){
+#if DEBUG_MODE
+  while(!(Serial.available() > 0)) vTaskDelay(10);
+  return Serial.read();
+#endif
+  return 255;
+}
